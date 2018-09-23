@@ -1,0 +1,22 @@
+<view class="container">
+	<view class="userinfo">
+		<image wx:if="{{user_info && user_info.avatar_url}}" class="userinfo-avatar" src="{{ user_info.avatar_url }}" background-size="cover"></image>
+		<text class="userinfo-nickname">{{ user_info.nickname }}（手机：--）</text>
+	</view>
+  <view style="height:20rpx;background: #eee;width:100%;"></view>
+  <view class="my-item">
+    <navigator url="/pages/my/order_list" hover-class="navigator-hover">我的订单</navigator>
+  </view>
+  <view class="my-item">
+    <navigator url="/pages/my/addressList" hover-class="navigator-hover">我的收货地址</navigator>
+  </view>
+
+  <view class="my-item">
+    <navigator url="/pages/my/commentList" hover-class="navigator-hover">我的评价</navigator>
+  </view>
+
+  <view style="height:20rpx;background: #eee;width:100%;"></view>
+  <view class="version">Powered by 编程浪子</view>
+  <view style="height:20rpx;background: #eee;width:100%;"></view>
+
+</view>

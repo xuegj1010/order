@@ -1,0 +1,88 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+<div class="row  border-bottom">
+    <div class="col-lg-12">
+        <div class="tab_title">
+            <ul class="nav nav-pills">
+                <li class="current">
+                    <a href="{{ build_url('/food/index') }}">美食列表</a>
+                </li>
+                <li>
+                    <a href="{{ build_url('/food/cat') }}">分类列表</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row mg-t20 wrap_food_set" style="">
+    <div class="col-lg-12" style="">
+        <h2 class="text-center">设置</h2>
+        <div class="form-horizontal m-t" style="">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">分类:</label>
+                <div class="col-lg-10">
+                    <select name="cat_id" class="form-control select2-hidden-accessible" tabindex="-1"
+                            aria-hidden="true">
+                        <option value="0">请选择分类</option>
+                        <option value="8">111</option>
+                    </select>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">名称:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" placeholder="请输入名称" name="name" value="">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">价格:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" placeholder="请输入售价" name="price" value="">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">封面图:</label>
+                <div class="col-lg-10">
+                    <form class="upload_pic_wrap" target="upload_file" enctype="multipart/form-data" method="POST" action="{{ build_url('/upload/pic') }}">
+                        <div class="upload_wrap pull-left">
+                            <i class="fa fa-upload fa-2x"></i>
+                            <input type="file" name="pic" accept="image/png, image/jpeg, image/jpg,image/gif">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group" style="">
+                <label class="col-lg-2 control-label">描述:</label>
+                <div class="col-lg-10">
+                    <textarea  id="editor"  name="summary" style="height: 300px;"></textarea>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">库存:</label>
+                <div class="col-lg-2">
+                    <input type="text" name="stock" class="form-control" value="1">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">标签:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" name="tags" value="">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <input type="hidden" name="id" value="0">
+                    <button class="btn btn-w-m btn-outline btn-primary save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

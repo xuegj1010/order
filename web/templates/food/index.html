@@ -1,0 +1,98 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+<div class="row  border-bottom">
+    <div class="col-lg-12">
+        <div class="tab_title">
+            <ul class="nav nav-pills">
+                <li class="current">
+                    <a href="{{ build_url('/food/index') }}">美食列表</a>
+                </li>
+                <li>
+                    <a href="{{ build_url('/food/cat') }}">分类列表</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form-inline wrap_search">
+            <div class="row  m-t p-w-m">
+                <div class="form-group">
+                    <select name="status" class="form-control inline">
+                        <option value="-1">请选择状态</option>
+                        <option value="1">正常</option>
+                        <option value="0">已删除</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="cat_id" class="form-control inline">
+                        <option value="0">请选择分类</option>
+                        <option value="1">111</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" name="mix_kw" placeholder="请输入关键字" class="form-control" value="">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn  btn-primary search">
+                                <i class="fa fa-search"></i>搜索
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right" href="{{ build_url('/food/set') }}">
+                        <i class="fa fa-plus"></i>美食
+                    </a>
+                </div>
+            </div>
+
+        </form>
+        <table class="table table-bordered m-t">
+            <thead>
+            <tr>
+                <th>美食名</th>
+                <th>分类</th>
+                <th>价格</th>
+                <th>库存</th>
+                <th>标签</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>小鸡炖蘑菇</td>
+                <td>东北菜</td>
+                <td>0.02</td>
+                <td>27</td>
+                <td>好吃</td>
+                <td>
+                    <a href="{{ build_url('/food/info') }}">
+                        <i class="fa fa-eye fa-lg"></i>
+                    </a>
+                    <a class="m-l" href="{{ build_url('/food/set') }}">
+                        <i class="fa fa-edit fa-lg"></i>
+                    </a>
+
+                    <a class="m-l remove" href="javascript:void(0);" data="3">
+                        <i class="fa fa-trash fa-lg"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <span class="pagination_count" style="line-height: 40px;">共1条记录 | 每页50条</span>
+                <ul class="pagination pagination-lg pull-right" style="margin: 0 0 ;">
+                    <li class="active"><a href="javascript:void(0);">1</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+<!--index.wxml-->
+<!--1px = 750/320 = 2.34rpx;-->
+<view class="container">
+  <!--轮播图-->
+  <view class="swiper-container">
+    <swiper class="swiper_box" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
+      <block wx:for="{{banners}}" wx:key="id">
+        <swiper-item>
+          <image bindtap="tapBanner" data-id="{{item.id}}" src="{{item.pic_url}}" class="slide-image" width="750rpx" height="562.5rpx" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="dots">
+      <block wx:for="{{banners}}" wx:key="unique">
+        <view class="dot{{index == swiperCurrent ? ' active' : ''}}"></view>
+      </block>
+    </view>
+  </view>
+  <!--分类展示-->
+  <view class="type-container">
+    <scroll-view class="type-navbar" scroll-x="true">
+      <view class="type-box" wx:for-items="{{categories}}" wx:key="id">
+        <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}" >
+          {{item.name}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <!--搜索框-->
+  <view class="search-view" style="background:{{ scrollTop === 0 ?'-webkit-linear-gradient(top, rgba(105,195,170, 1), rgba(105,195,170, 0.3))' :( scrollTop<200 ? 'rgba(105,195,170,'+(scrollTop/400+0.3) +')' : 'rgba(105,195,170,1)')  }} ">
+    <view class="search-content">
+      <image src="/images/search-pic.png" class="search-icon" />
+      <input placeholder="请输入搜索内容" class="search-input" maxlength="30" confirm-type="搜索" bindinput='listenerSearchInput'>
+      </input>
+      <button class='search-btn' bindtap="toSearch">搜索</button>
+    </view>
+  </view>
+
+  <view class="goods-container">
+    <view class="goods-box" wx:for-items="{{goods}}"  bindtap="toDetailsTap">
+      <view class="img-box">
+        <image src="{{item.pic_url}}" class="image" mode="aspectFill" lazy-load="true" />
+      </view>
+      <view class="goods-title">{{item.name}}</view>
+      <view style='display:flex;'>
+        <view class="goods-price">¥ {{item.min_price}}</view>
+        <view wx:if="{{item.price && item.price > 0 && item.min_price != item.price}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.price}}</view>
+      </view>
+    </view>
+  </view>
+  <view hidden="{{loadingMoreHidden ? true : false}}" class="no-more-goods">哥也是有底线的</view>
+</view>

@@ -1,0 +1,64 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+<div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-primary pull-right">日统计</span>
+                            <h5>营收概况</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">1005.00</h1>
+                            <small>近30日：31177.00</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-primary pull-right">日统计</span>
+                            <h5>订单</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">988</h1>
+                            <small>近30日：29383</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-primary pull-right">日统计</span>
+                            <h5>会员</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">358</h1>
+                            <small>今日新增：77</small>
+                            <small>近30日新增：2454</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-primary pull-right">日统计</span>
+                            <h5>分享</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">1250</h1>
+                            <small>近30日：45980</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" id="member_order" style="height: 400px;border: 1px solid #e6e6e6;padding-top: 20px;">
+                    使用highchart画图
+                </div>
+                <div class="col-lg-12" id="finance" style="height: 400px;border: 1px solid #e6e6e6;padding-top: 20px;">
+                    使用highchart画图
+                </div>
+            </div>
+        </div>
+{% endblock %}

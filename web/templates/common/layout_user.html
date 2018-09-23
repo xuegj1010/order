@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>{{ config.SEO_TITLE }}</title>
+	<!-- Le styles -->
+    <link href="{{ static_url('/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('/css/style.css') }}" rel="stylesheet">
+    {%block css %}{% endblock %}
+</head>
+
+<body class="gray-bg">
+{% block content %}{% endblock %}
+
+<script src="{{ static_url('/plugins/jquery-2.1.1.js') }}"></script>
+<script src="{{ static_url('/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ static_url('/plugins/layer/layer.js') }}"></script>
+<script src="{{ static_url('/js/common.js') }}"></script>
+{%block js %}{% endblock %}
+</body>
+</html>

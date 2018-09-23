@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-bootstrap = "*"
+flask-moment = "*"
+flask-wtf = "*"
+flask-sqlalchemy = "*"
+flask-script = "*"
+flask-sqlacodegen = "*"
+cymysql = "*"
+pymysql = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

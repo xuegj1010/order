@@ -1,0 +1,74 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+<div class="row  border-bottom">
+    <div class="col-lg-12">
+        <div class="tab_title">
+            <ul class="nav nav-pills">
+                <li class="current">
+                    <a href="{{ build_url('/finance/index') }}">订单列表</a>
+                </li>
+                <li>
+                    <a href="{{ build_url('/finance/account') }}">财务流水</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form-inline wrap_search">
+            <div class="row  m-t p-w-m">
+                <div class="form-group">
+                    <select name="status" class="form-control inline">
+                        <option value="-1">请选择状态</option>
+                        <option value="1">已支付</option>
+                        <option value="-8">待支付</option>
+                        <option value="0">已关闭</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <table class="table table-bordered m-t">
+            <thead>
+            <tr>
+                <th>订单编号</th>
+                <th>名称</th>
+                <th>价格</th>
+                <th>支付时间</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>20171231347</td>
+                <td>
+                    小鸡炖蘑菇 × 1<br>
+                </td>
+                <td>0.01</td>
+                <td>
+                </td>
+                <td>已关闭</td>
+                <td>2017-12-31 13:35</td>
+                <td>
+                    <a href="{{ build_url('/finance/pay-info') }}">
+                        <i class="fa fa-eye fa-lg"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <!--分页代码已被封装到统一模板文件中-->
+        <div class="row">
+            <div class="col-lg-12">
+                <span class="pagination_count" style="line-height: 40px;">共1条记录 | 每页50条</span>
+                <ul class="pagination pagination-lg pull-right" style="margin: 0 0 ;">
+                    <li class="active"><a href="javascript:void(0);">1</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

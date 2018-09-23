@@ -1,0 +1,10 @@
+{% extends "common/layout_user.html" %}
+{% block content %}
+    <div class="row">
+        <div class="panel panel-default gray-bg text-center" style="min-height: 600px;line-height: 600px;">
+            <div class="panel-body gray-bg" style="font-size: 18px;">
+                <p>{{ msg }}，<a href="{{ build_url('/') }}">返回首页</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

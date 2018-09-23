@@ -1,0 +1,67 @@
+<view class="container">
+    <view class="sec-wrap">
+        <view class="order-status">
+            <view class="icon-box">
+                <image wx:if="{{info.status== 0}}" class="icon" src="/images/order/icon-ddgb.png"></image>
+                <image wx:elif="{{info.status==-8}}" class="icon" src="/images/order/icon-ddfk.png"></image>
+                <image wx:elif="{{info.status==-7}}" class="icon" src="/images/order/icon-ddfh.png"></image>
+                <image wx:elif="{{info.status== -6}}" class="icon" src="/images/order/icon-ddsh.png"></image>
+                <image wx:elif="{{info.status== 1 || info.status== -5}}" class="icon" src="/images/order-details/icon-jycg.png"></image>
+            </view>
+            <view class="right-text">
+                <view class="status red">{{info.status_desc}}</view>
+                <view class="des">请于{{ info.deadline }}前付款，超时订单将自动关闭</view>
+            </view>
+        </view>
+        <block>
+          <view class="address-sec">
+              <view class="icon-box">
+                  <image class="icon" src="/images/order/icon-address.png"></image>
+              </view>
+              <view class="right-box">
+                  <view class="name-tel">{{info.address.name}}  {{info.address.mobile}}</view>
+                  <view class="text">
+                      {{info.address.address}}
+                  </view>
+              </view>
+          </view>
+        </block>
+    </view>
+    <view class="goods-list">
+        <view class="list-title">商品信息</view>
+            <block wx:for-items="{{info.goods}}" wx:key="{{index}}">
+                <view class="a-goods">
+                    <view class="img-box">
+                      <image src="{{item.pic_url}}" class="img" />
+                    </view>
+                    <view class="text-box">
+                      <view class="arow arow01">
+                          <view class="goods-name">{{item.name}}</view>
+                          <view class="goods-price">¥ {{item.price}}</view>
+                      </view>
+                      <view class="arow">
+                          <view class="goods-label"></view>
+                          <view class="goods-num">x {{item.unit}}</view>
+                      </view>
+                    </view>
+                </view>
+            </block>
+        <view class="btn-row">
+              <button class="confirm-btn" data-id="{{info.order_sn}}">确认收货</button>
+        </view>
+    </view>
+    <view class="goods-info">
+        <view class="row-box">
+            <view class="row-label">商品金额</view>
+            <view class="right-text">¥ {{info.pay_price}}</view>
+        </view>
+        <view class="row-box">
+            <view class="row-label">运费</view>
+            <view class="right-text">+ ¥ {{info.yun_price}}</view>
+        </view>
+        <view class="row-box">
+            <view class="row-label">应付总额</view>
+            <view class="right-text">¥ {{info.total_price}}</view>
+        </view>
+    </view>
+</view>

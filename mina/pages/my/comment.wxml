@@ -1,0 +1,21 @@
+<view class="container">
+<view class="goods-list">
+    <view class="btn-row">
+      <view class="section section_gap">
+        <view style="margin-top:35rpx;margin-bottom:35rpx;">评价：</view>
+        <radio-group name="score" bindchange="scoreChange">
+          <label style="margin-right:35rpx;"><radio value="10" checked/>好评</label>
+          <label style="margin-right:35rpx;"><radio value="6"/>中评</label>
+          <label style="margin-right:35rpx;"><radio value="0"/>差评</label>
+        </radio-group>
+      </view>
+      <view class="row-box" style="margin-top:35rpx">
+          <view class="row-label">评价内容</view>
+          <textarea name="content" style="margin-top:35rpx;width:100%;" value="{{content}}" />
+      </view>
+      <view class="btn-row">
+        <button class="confirm-btn" bindtap="doComment">提交评价</button>
+      </view>
+    </view>
+</view>
+</view>

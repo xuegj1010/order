@@ -1,0 +1,15 @@
+<view class="container">
+    <view class="comment-list">
+        <view class="a-order" wx:for="{{list}}" wx:key="{{index}}" wx:for-item="item">
+            <view class="order-date">
+                <view class="date-box">评价时间：{{item.date}}</view>
+            </view>
+            <view class="goods-info">
+                <view class="goods-des">
+                  <view>订单号：{{item.order_number}} </view>
+                   <view>我的评价：{{item.content}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

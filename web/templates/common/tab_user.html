@@ -1,0 +1,14 @@
+<div class="row  border-bottom">
+    <div class="col-lg-12">
+        <div class="tab_title">
+            <ul class="nav nav-pills">
+                <li {% if current == "edit" %}class="current"{% endif %}>
+                    <a href="{{ build_url('/user/edit') }}">信息编辑</a>
+                </li>
+                <li {% if current == "reset-pwd" %}class="current"{% endif %}>
+                    <a href="{{ build_url('/user/reset-pwd') }}">修改密码</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

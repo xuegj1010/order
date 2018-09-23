@@ -1,0 +1,53 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+<div class="row  border-bottom">
+    <div class="col-lg-12">
+        <div class="tab_title">
+            <ul class="nav nav-pills">
+                <li>
+                    <a href="{{ build_url('/member/index') }}">会员列表</a>
+                </li>
+                <li class="current">
+                    <a href="{{ build_url('/member/comment') }}">会员评论</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered m-t">
+            <thead>
+            <tr>
+                <th>头像</th>
+                <th>姓名</th>
+                <th>美餐</th>
+                <th>评论内容</th>
+                <th>打分</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <img alt="image" class="img-circle" src="{{ static_url('/images/common/avatar.png') }}" style="width: 40px;height: 40px;">
+                </td>
+                <td>
+                    编程浪子
+                </td>
+                <td>小鸡炖蘑菇</td>
+                <td>非常愉快的订餐服务</td>
+                <td>8</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <span class="pagination_count" style="line-height: 40px;">共1条记录 | 每页50条</span>
+                <ul class="pagination pagination-lg pull-right" style="margin: 0 0 ;">
+                    <li class="active"><a href="javascript:void(0);">1</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

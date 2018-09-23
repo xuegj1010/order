@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>管理后台</title>
+    <link href="{{ static_url('/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('/css/style.css') }}" rel="stylesheet">
+    {%block css %}{% endblock %}
+<body>
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="profile-element text-center">
+                        <img alt="image" class="img-circle" src="{{ static_url('/images/common/logo.png') }}"/>
+                        <p class="text-muted">编程浪子</p>
+                    </div>
+                    <div class="logo-element">
+                        <img alt="image" class="img-circle" src="{{ static_url('/images/common/logo.png') }}"/>
+                    </div>
+                </li>
+                <li class="default">
+                    <a href="{{ build_url('/') }}"><i class="fa fa-dashboard fa-lg"></i>
+                        <span class="nav-label">仪表盘</span></a>
+                </li>
+                <li class="account">
+                    <a href="{{ build_url('/account/index') }}"><i class="fa fa-user fa-lg"></i> <span
+                            class="nav-label">账号管理</span></a>
+                </li>
+                <li class="food">
+                    <a href="{{ build_url('/food/index') }}"><i class="fa fa-book fa-lg"></i> <span
+                            class="nav-label">美餐管理</span></a>
+                </li>
+                <li class="member">
+                    <a href="{{ build_url('/member/index') }}"><i class="fa fa-group fa-lg"></i> <span
+                            class="nav-label">会员列表</span></a>
+                </li>
+                <li class="finance">
+                    <a href="{{ build_url('/finance/index') }}"><i class="fa fa-rmb fa-lg"></i> <span
+                            class="nav-label">财务管理</span></a>
+                </li>
+                <li class="stat">
+                    <a href="{{ build_url('/stat/index') }}"><i class="fa fa-bar-chart fa-lg"></i> <span
+                            class="nav-label">统计管理</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg" style="background-color: #ffffff;">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+						<span class="m-r-sm text-muted welcome-message">
+                            欢迎使用编程浪子订餐管理管理后台
+                        </span>
+                    </li>
+                    <li class="dropdown user_info">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                            <img alt="image" class="img-circle" src="{{ static_url('/images/common/avatar.png') }}"/>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages">
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    姓名：{{ current_user.nickname }} <a href="{{ build_url('/user/edit') }}" class="pull-right">编辑</a>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    手机号码：{{ current_user.mobile }}
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="link-block text-center">
+                                    <a class="pull-left" href="{{ build_url('/user/reset-pwd') }}">
+                                        <i class="fa fa-lock"></i> 修改密码
+                                    </a>
+                                    <a class="pull-right" href="{{ build_url('/user/logout') }}">
+                                        <i class="fa fa-sign-out"></i> 退出
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </nav>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<script src="{{ static_url('/plugins/jquery-2.1.1.js') }}"></script>
+<script src="{{ static_url('/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ static_url('/plugins/layer/layer.js') }}"></script>
+<script src="{{ static_url('/js/common.js') }}"></script>
+{%block js %}{% endblock %}
+</body>
+</html>

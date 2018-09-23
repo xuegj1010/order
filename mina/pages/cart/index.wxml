@@ -1,0 +1,44 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="title-box">
+        购物车空空如也～
+    </view>
+    <view class="to-index-btn" bindtap="toIndexPage">
+        去逛逛
+    </view>
+
+    <view class="list-top" wx:if="{{ list }}">
+        <view class="label">购物车</view>
+        <view class="edit-btn" hidden="{{!saveHidden}}" bindtap="editTap">编辑</view>
+        <view class="edit-btn" hidden="{{saveHidden}}" bindtap="saveTap">完成</view>
+    </view>
+
+    <view class="goodsList">
+        <view class="a-gooods" wx:for="{{ list }}"  wx:key="{{index}}" >
+            <view class="a-goods-conts {{item.active? 'active':''}}" bindtap="selectTap" data-index="{{index}}">
+                <view class="goods-info">
+                    <view class="img-box">
+                        <image src="{{item.pic_url}}" class="img"/>
+                    </view>
+                    <view class="text-box">
+                        <view class="goods-title">{{item.name}}</view>
+                        <view class="goods-price">¥ {{item.price}}</view>
+                        <view class="buy-num">
+                            <view class="jian-btn" catchtap="jianBtnTap" data-index="{{index}}">-</view>
+                            <input  type="number" value="{{item.number}}" disabled/>
+                            <view class="jia-btn" catchtap="jiaBtnTap" data-index="{{index}}">+</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="jiesuan-box">
+        <view class="left-price">
+            <view class="all-selected  {{allSelect?'active':''}}" bindtap="bindAllSelect">全选</view>
+            <view class="total" hidden="{{noSelect}}">合计：¥ {{totalPrice}}</view>
+        </view>
+        <view class="to-pay-btn {{noSelect?'no-select':''}}" hidden="{{!saveHidden}}" bindtap="toPayOrder">去结算</view>
+        <view class="to-pay-btn {{noSelect?'no-select':''}}" hidden="{{saveHidden}}" bindtap="deleteSelected">删除</view>
+    </view>
+</view>

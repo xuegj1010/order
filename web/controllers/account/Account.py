@@ -46,9 +46,14 @@ def info():
         return redirect(reback_url)
 
     resp_data['info'] = info
-    return ops_render("account/info.html",resp_data)
+    return ops_render("account/info.html", resp_data)
 
 
-@route_account.route("/set")
+@route_account.route("/set", methods=['GET', 'POST'])
 def set_():
-    return ops_render("account/set.html")
+    if 'methods' == 'GET':
+        return ops_render("account/set.html")
+
+    resp = {'code': 200, 'msg': '操作成功！', 'data': {}}
+    req = request.values
+

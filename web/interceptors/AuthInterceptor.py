@@ -19,7 +19,7 @@ def before_request():
     if pattern.match(path):
         return
 
-    user_info = check_login()
+    user_info = check_login()  # 登陆成功
     g.current_user = None
     if user_info:
         g.current_user = user_info

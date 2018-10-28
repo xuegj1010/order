@@ -114,7 +114,7 @@ def reset_pwd():
     # 修改密码之后刷新cookie保持登陆状态
     # response = make_response(json.dumps(resp))
     # response.set_cookie(app.config['AUTH_COOKIE_NAME'],
-    #                     "%s#%s" % (UserService.gene_auth_code(user_info), user_info.uid))
+    #                     "%s#%s" % (UserService.gene_auth_code(user_info), user_info.uid), 60 * 60 * 24 * 120)
     #
     # return response
 

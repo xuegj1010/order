@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, request, redirect, jsonify
+from sqlalchemy import or_
 
 from app import app, db
 from common.libs.Helper import ops_render, i_pagination, getCurrentDate
@@ -14,8 +15,17 @@ route_account = Blueprint('account_page', __name__)
 def index():
     resp_data = {}
     req = request.values
-    page = int(req['p'] if ('p' in req and req['p']) else 1)
+    page = int(req['p']) if ('p' in req and req['p']) else 1
     query = User.query
+
+    # 混合查询关键字‘mix_kw
+    if 'mix_kw' in req:
+        rule = or_(User.nickname.ilike("%{0}%".format(req['mix_kw'])), User.mobile.ilike("%{0}%".format(req['mix_kw'])))
+        query = query.filter(rule)
+
+    if 'status' in req and int(req['status']) > -1:
+        query = query.filter(User.status == int(req['status']))
+
     page_params = {
         'total': query.count(),
         'page_size': app.config['PAGE_SIZE'],
@@ -31,6 +41,8 @@ def index():
 
     resp_data['list'] = list_
     resp_data['pages'] = pages
+    resp_data['search_con'] = req
+    resp_data['status_mapping'] = app.config['STATUS_MAPPING']
     return ops_render("account/index.html", resp_data)
 
 
@@ -130,4 +142,40 @@ def set_():
 
     db.session.add(model_user)
     db.session.commit()
+    return jsonify(resp)
+
+
+@route_account.route("/ops", methods=["POST"])
+def ops():
+    resp = {'code': 200, 'msg': '操作成功!', 'data': {}}
+    req = request.values
+
+    id = req['id'] if 'id' in req else 0
+    act = req['act'] if 'act' in req else ''
+
+    if not id:
+        resp['code'] = -1
+        resp['msg'] = "请选择要操作的账号！"
+        return jsonify(resp)
+
+    if act not in ['remove', 'recover']:
+        resp['code'] = -1
+        resp['msg'] = "操作有误，请重试！"
+        return jsonify(resp)
+
+    user_info = User.query.filter_by(uid=id).first()
+    if not user_info:
+        resp['code'] = -1
+        resp['msg'] = "指定账号不存在！"
+        return jsonify(resp)
+
+    if act == 'remove':
+        user_info.status = 0
+    elif act == 'recover':
+        user_info.status = 1
+
+    user_info.update_time = getCurrentDate()
+    db.session.add(user_info)
+    db.session.commit()
+
     return jsonify(resp)

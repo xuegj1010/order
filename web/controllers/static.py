@@ -1,5 +1,5 @@
 from flask import Blueprint, send_from_directory
-from app import app
+from application import app
 
 route_static = Blueprint('static', __name__)
 

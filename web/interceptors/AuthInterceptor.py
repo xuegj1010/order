@@ -1,8 +1,9 @@
 import re
 
-from app import app
+from application import app
 from flask import request, redirect, g
 
+from common.libs.LogService import LogService
 from common.libs.UrlManager import UrlManager
 from common.libs.user.Userservice import UserService
 from common.models.user import User
@@ -24,6 +25,8 @@ def before_request():
     if user_info:
         g.current_user = user_info
 
+    # 加入访问日志
+    LogService.addAccessLog()
     pattern = re.compile('%s' % "|".join(ignore_urls))
     if pattern.match(path):
         return
@@ -54,6 +57,9 @@ def check_login():
         return False
 
     if auth_info[0] != UserService.gene_auth_code(user_info):
+        return False
+
+    if user_info.status != 1:
         return False
 
     return user_info

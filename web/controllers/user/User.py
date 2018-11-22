@@ -3,7 +3,7 @@ import json
 
 from flask import Blueprint, request, jsonify, make_response, redirect, g
 
-from app import app, db
+from application import app, db
 from common.libs.Helper import ops_render
 from common.libs.UrlManager import UrlManager
 from common.libs.user.Userservice import UserService
@@ -40,6 +40,11 @@ def login():
     if user_info.login_pwd != UserService.gene_pwd(login_pwd, user_info.login_salt):
         resp['code'] = -1
         resp['msg'] = "请输入正确的用户名和密码！"
+        return jsonify(resp)
+
+    if user_info.status != 1:
+        resp['code'] = -1
+        resp['msg'] = "账号已被禁用，请联系管理员！"
         return jsonify(resp)
 
     response = make_response(json.dumps(resp))

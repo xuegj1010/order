@@ -2,7 +2,7 @@
 from flask import Blueprint, request, redirect, jsonify
 from sqlalchemy import or_
 
-from app import app, db
+from application import app, db
 from common.libs.Helper import ops_render, i_pagination, getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.libs.user.Userservice import UserService

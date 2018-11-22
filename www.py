@@ -1,7 +1,8 @@
-from app import app
+from application import app
 
 # 统一拦截器
 from web.interceptors.AuthInterceptor import *
+from web.interceptors.ErrorInterceptor import *
 
 # 蓝图功能，对所有的url进行蓝图功能配置
 from web.controllers.index import route_index

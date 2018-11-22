@@ -4,7 +4,6 @@ from flask import Flask
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 
-from common.libs.UrlManager import UrlManager
 
 
 class Application(Flask):
@@ -31,5 +30,6 @@ manager = Manager(app)
 """
 函数模板
 """
+from common.libs.UrlManager import UrlManager
 app.add_template_global(UrlManager.build_url, 'build_url')
 app.add_template_global(UrlManager.static_url, 'static_url')

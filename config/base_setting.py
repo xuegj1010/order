@@ -5,7 +5,8 @@ AUTH_COOKIE_NAME = 'mooc_food'
 
 # 过滤url
 IGNORE_URLS = [
-    '^/user/login'
+    '^/user/login',
+    '^/api'
 ]
 
 IGNORE_CHECK_LOGIN_URLS = [
@@ -19,4 +20,9 @@ PAGE_DISPLAY = 10
 STATUS_MAPPING = {
     '1': '正常',
     '0': '已删除'
+}
+
+MINA_APP = {
+    'appid': 'wxe3bf7f6fe7085b14',
+    'appkey': '51d0388c7760149de5064cff95e538b5'
 }

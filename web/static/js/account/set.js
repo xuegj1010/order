@@ -4,7 +4,7 @@ var account_set_ops = {
         this.eventBind();
     },
     eventBind: function () {
-        $(".save").click(function () {
+        $(".wrap_account_set .save").click(function () {
             var btn_target = $(this);
             if (btn_target.hasClass("disabled")) {
                 common_ops.alert("正在处理，请不要重复提交！");

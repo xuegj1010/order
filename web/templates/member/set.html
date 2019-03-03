@@ -22,17 +22,21 @@
 			<div class="form-group">
 				<label class="col-lg-2 control-label">会员名称:</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" placeholder="请输入会员名称" name="nickname" value="编程浪子">
+					<input type="text" class="form-control" placeholder="请输入会员名称" name="nickname" value="{{ info.nickname }}">
 				</div>
 			</div>
 			<div class="hr-line-dashed"></div>
 			<div class="form-group">
 				<div class="col-lg-4 col-lg-offset-2">
-					<input type="hidden" name="id" value="0">
+					<input type="hidden" name="id" value="{{ info.id }}">
 					<button class="btn btn-w-m btn-outline btn-primary save">保存</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ static_url('/js/member/set.js') }}"></script>
 {% endblock %}

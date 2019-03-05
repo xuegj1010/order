@@ -26,3 +26,9 @@ MINA_APP = {
     'appid': 'wxe3bf7f6fe7085b14',
     'appkey': '51d0388c7760149de5064cff95e538b5'
 }
+
+UPLOAD = {
+    'ext':['jpg', 'gif', 'bmp', 'jpeg', 'png'],
+    'prefix_path': '/web/static/upload/',
+    'prefix_url':'/status/upload'
+}

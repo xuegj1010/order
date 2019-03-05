@@ -14,7 +14,7 @@ var food_set_ops = {
             saveInterval: 60000,
             elementPathEnabled: false,
             zIndex: 4,
-            erverUrl: common_ops.buildUrl('/upload/ueditor')
+            serverUrl: common_ops.buildUrl('/upload/ueditor')
         })
     }
 };

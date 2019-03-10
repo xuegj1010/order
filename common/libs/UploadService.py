@@ -4,8 +4,9 @@ import uuid
 
 from werkzeug.utils import secure_filename
 
-from application import app
+from application import app, db
 from common.libs.Helper import getCurrentDate
+from common.models.Image import Image
 
 
 class UploadService():
@@ -28,6 +29,12 @@ class UploadService():
 
         file_name = str(uuid.uuid4()).replace('-', '') + '.' + ext
         file.save('{0}/{1}'.format(save_dir, file_name))
+
+        model_iamge = Image()
+        model_iamge.file_key = file_dir + '/' + file_name
+        model_iamge.created_time = getCurrentDate()
+        db.session.add(model_iamge)
+        db.session.commit()
 
         resp['data'] = {
             'file_key': file_dir + '/' + file_name

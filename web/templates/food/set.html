@@ -25,6 +25,9 @@
                                 aria-hidden="true">
                             <option value="0">请选择分类</option>
                             <option value="8">111</option>
+                            <option value="8">222</option>
+                            <option value="8">333</option>
+                            <option value="8">444</option>
                         </select>
                     </div>
                 </div>
@@ -86,12 +89,24 @@
             </div>
         </div>
     </div>
+    <iframe name="upload_file" class="hide"></iframe>
+{% endblock %}
+
+{% block css %}
+    <link href="{{ static_url('/plugins/select2/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('/plugins/tagsinput/jquery.tagsinput.min.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block js %}
     <script src="{{ static_url('/plugins/ueditor/ueditor.config.js') }}"></script>
     <script src="{{ static_url('/plugins/ueditor/ueditor.all.min.js') }}"></script>
     <script src="{{ static_url('/plugins/ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+
+    <script src="{{ static_url('/plugins/select2/select2.pinyin.js') }}"></script>
+    <script src="{{ static_url('/plugins/select2/zh-CN.js') }}"></script>
+    <script src="{{ static_url('/plugins/select2/pinyin.core.js') }}"></script>
+
+    <script src="{{ static_url('/plugins/tagsinput/jquery.tagsinput.min.js') }}"></script>
 
     <script src="{{ static_url('/js/food/set.js') }}"></script>
 {% endblock %}

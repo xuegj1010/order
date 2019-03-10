@@ -5,6 +5,8 @@ from flask import Blueprint, request, jsonify
 
 from application import app
 from common.libs.UploadService import UploadService
+from common.libs.UrlManager import UrlManager
+from common.models.Image import Image
 
 route_upload = Blueprint("upload_page", __name__)
 
@@ -28,6 +30,26 @@ def ueditor():
     if action == "uploadimage":
         return upload_image()
 
+    if action == 'listimage':
+        return list_image()
+
+    return 'upload'
+
+
+@route_upload.route('/pic', methods=['GET', 'POST'])
+def upload_pic():
+    file_target = request.files
+    up_file = file_target['pic'] if 'pic' in file_target else None
+    callback_target = 'window.parent.upload'
+    if up_file is None:
+        return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上传失败")
+
+    ret = UploadService.upload_by_file(up_file)
+    if ret['code'] != 200:
+        return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上传失败：" + ret['msg'])
+
+    return "<script type='text/javascript'>{0}.success('{1}')</script>".format(callback_target, ret['data']['file_key'])
+
 
 def upload_image():
     resp = {'state': 'SUCCESS', 'url': '', 'title': '', 'original': ''}
@@ -42,6 +64,31 @@ def upload_image():
         resp['state'] = '上传是失败：' + ret['msg']
         return jsonify(resp)
 
-    resp['url'] = ret['data']['file_key']
+    resp['url'] = UrlManager.build_image_url(ret['data']['file_key'])
 
+    return jsonify(resp)
+
+
+def list_image():
+    resp = {'state': 'SUCCESS', 'list': [], 'start': 0, 'total': 0}
+    req = request.values
+
+    start = int(req['start']) if 'start' in req else 0
+    page_size = int(req['size']) if 'size' in req else 20
+
+    query = Image.query
+
+    if start > 0:
+        query = query.filter(Image.id < start)
+
+    list = query.order_by(Image.id.desc()).limit(page_size).all()
+    images = []
+    if list:
+        for item in list:
+            images.append({'url': UrlManager.build_image_url(item.file_key)})
+            start = item.id
+
+    resp['list'] = images
+    resp['start'] = start
+    resp['total'] = len(images)
     return jsonify(resp)

@@ -1,0 +1,1 @@
+flask-sqlacodegen --flask mysql+pymysql://root:123456@192.168.205.10:3307/order --tables oauth_member_b ind --outfile "common/models/member/OauthMemberBind.py"

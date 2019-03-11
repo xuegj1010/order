@@ -24,10 +24,12 @@
                         <select name="cat_id" class="form-control select2-hidden-accessible" tabindex="-1"
                                 aria-hidden="true">
                             <option value="0">请选择分类</option>
-                            <option value="8">111</option>
-                            <option value="8">222</option>
-                            <option value="8">333</option>
-                            <option value="8">444</option>
+                            {% for item in cat_list %}
+                                <option value="{{ item.id }}" {% if item.id==info.cat_id %}
+                                        selected {% endif %}>{{ item.name }}</option>
+
+                            {% endfor %}
+
                         </select>
                     </div>
                 </div>
@@ -35,14 +37,15 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">名称:</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" placeholder="请输入名称" name="name" value="">
+                        <input type="text" class="form-control" placeholder="请输入名称" name="name" value="{{ info.name }}">
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">价格:</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" placeholder="请输入售价" name="price" value="">
+                        <input type="text" class="form-control" placeholder="请输入售价" name="price"
+                               value="{{ info.price }}">
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
@@ -55,6 +58,13 @@
                                 <i class="fa fa-upload fa-2x"></i>
                                 <input type="file" name="pic" accept="image/png, image/jpeg, image/jpg,image/gif">
                             </div>
+                            {% if info and info.main_image %}
+                                <span class="pic-each">
+                                    <img src="{{ build_image_url(info.main_image) }}"/>
+                                    <span class="fa fa-times-circle del del_image" data="{{ info.main_image }}"></span>
+                                </span>
+
+                            {% endif %}
                         </form>
                     </div>
                 </div>
@@ -62,27 +72,27 @@
                 <div class="form-group" style="">
                     <label class="col-lg-2 control-label">描述:</label>
                     <div class="col-lg-10">
-                        <textarea id="editor" name="summary" style="height: 300px;"></textarea>
+                        <textarea id="editor" name="summary" style="height: 300px;">{{ info.summary }}</textarea>
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">库存:</label>
                     <div class="col-lg-2">
-                        <input type="text" name="stock" class="form-control" value="1">
+                        <input type="text" name="stock" class="form-control" value="{{ info.stock }}">
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">标签:</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" name="tags" value="">
+                        <input type="text" class="form-control" name="tags" value="{{ info.tags }}">
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <div class="col-lg-4 col-lg-offset-2">
-                        <input type="hidden" name="id" value="0">
+                        <input type="hidden" name="id" value="{{ info.id }}">
                         <button class="btn btn-w-m btn-outline btn-primary save">保存</button>
                     </div>
                 </div>

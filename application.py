@@ -33,3 +33,4 @@ manager = Manager(app)
 from common.libs.UrlManager import UrlManager
 app.add_template_global(UrlManager.build_url, 'build_url')
 app.add_template_global(UrlManager.static_url, 'static_url')
+app.add_template_global(UrlManager.build_image_url, 'build_image_url')

@@ -2,9 +2,10 @@
 from decimal import Decimal
 
 from flask import Blueprint, request, jsonify, redirect
+from sqlalchemy import or_
 
 from application import db, app
-from common.libs.Helper import ops_render, getCurrentDate
+from common.libs.Helper import ops_render, getCurrentDate, i_pagination, get_dict_filter_field
 from common.libs.UrlManager import UrlManager
 from common.models.food.food import Food
 from common.models.food.food_cat import FoodCat
@@ -15,7 +16,39 @@ route_food = Blueprint('food_page', __name__)
 
 @route_food.route("/index")
 def index():
-    return ops_render("food/index.html")
+    resp_data = {}
+    req = request.values
+    page = int(req['p']) if ('p' in req and req['p']) else 1
+    query = Food.query
+    if 'mix_kw' in req:
+        rule = or_(Food.name.ilike("%{0}%".format(req['mix_kw'])), Food.tags.ilike("%{0}%".format(req['mix_kw'])))
+        query = query.filter(rule)
+
+    if 'status' in req and int(req['status']) > -1:
+        query = query.filter(Food.status == int(req['status']))
+
+    if 'cat_id' in req and int(req['cat_id']) > 0:
+        query = query.filter(Food.cat_id == int(req['cat_id']))
+
+    page_params = {
+        'total': query.count(),
+        'page_size': app.config['PAGE_SIZE'],
+        'page': page,
+        'display': app.config['PAGE_DISPLAY'],
+        'url': request.full_path.replace("&p={}".format(page), "")
+    }
+    pages = i_pagination(page_params)
+    offset = (page - 1) * app.config['PAGE_SIZE']
+    list = query.order_by(Food.id.desc()).offset(offset).limit(app.config['PAGE_SIZE']).all()
+
+    cat_mapping = get_dict_filter_field(FoodCat, FoodCat.id, "id", [])
+    resp_data['list'] = list
+    resp_data['pages'] = pages
+    resp_data['search_con'] = req
+    resp_data['status_mapping'] = app.config['STATUS_MAPPING']
+    resp_data['cat_mapping'] = cat_mapping
+    resp_data['current'] = 'index'
+    return ops_render("food/index.html", resp_data)
 
 
 @route_food.route("/info")
@@ -41,7 +74,7 @@ def set():
     resp = {'code': 200, 'msg': '操作成功！', 'data': {}}
 
     req = request.values
-    id = int(req['id']) if 'id' in req else 0
+    id = int(req['id']) if 'id' in req and req['id'] else 0
     cat_id = int(req['cat_id']) if 'cat_id' in req else 0
     name = req['name'] if 'name' in req else ''
     price = req['price'] if 'price' in req else ''

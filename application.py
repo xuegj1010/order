@@ -5,7 +5,6 @@ from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 
 
-
 class Application(Flask):
     def __init__(self, import_name, template_folder=None, root_path=None):
         super(Application, self).__init__(

@@ -8,7 +8,7 @@
     <link href="{{ static_url('/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ static_url('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ static_url('/css/style.css') }}" rel="stylesheet">
-    {%block css %}{% endblock %}
+    {% block css %}{% endblock %}
 <body>
 <div id="wrapper">
     <nav class="navbar-default navbar-static-side" role="navigation">
@@ -56,7 +56,8 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i class="fa fa-bars"></i> </a>
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i
+                            class="fa fa-bars"></i> </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
@@ -71,7 +72,8 @@
                         <ul class="dropdown-menu dropdown-messages">
                             <li>
                                 <div class="dropdown-messages-box">
-                                    姓名：{{ current_user.nickname }} <a href="{{ build_url('/user/edit') }}" class="pull-right">编辑</a>
+                                    姓名：{{ current_user.nickname }} <a href="{{ build_url('/user/edit') }}"
+                                                                      class="pull-right">编辑</a>
                                 </div>
                             </li>
                             <li class="divider"></li>
@@ -101,11 +103,15 @@
         {% block content %}{% endblock %}
     </div>
 </div>
+<div class="hidden hidden_layout_wrap">
+    <input name="domain" value="{{ config.APP.domain }}">
+    <input name="prefix_url" value="{{ config.UPLOAD.prefix_url }}">
+</div>
 
 <script src="{{ static_url('/plugins/jquery-2.1.1.js') }}"></script>
 <script src="{{ static_url('/bootstrap/bootstrap.min.js') }}"></script>
 <script src="{{ static_url('/plugins/layer/layer.js') }}"></script>
 <script src="{{ static_url('/js/common.js') }}"></script>
-{%block js %}{% endblock %}
+{% block js %}{% endblock %}
 </body>
 </html>

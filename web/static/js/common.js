@@ -156,8 +156,10 @@ var common_ops = {
         }
         return url + _paramUrl;
     },
-    buildPicUrl:function (img_key) {
-        return "http://127.0.0.1:9000/static/upload/" + img_key;
+    buildPicUrl: function (img_key) {
+        var domain = $(".hidden_layout_wrap input[name=domain]").val()
+        var prefix_url = $(".hidden_layout_wrap input[name=prefix_url]").val()
+        return domain + prefix_url + img_key;
     }
 };
 

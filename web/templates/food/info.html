@@ -1,19 +1,6 @@
 {% extends "common/layout_main.html" %}
 {% block content %}
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li class="current">
-                    <a href="{{ build_url('/food/index') }}">美食列表</a>
-                </li>
-                <li>
-                    <a href="{{ build_url('/food/cat') }}">分类列表</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+{% include "common/tab_food.html" %}
 <style type="text/css">
     .wrap_info img {
         width: 70%;
@@ -24,7 +11,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="m-b-md">
-                    <a class="btn btn-outline btn-primary pull-right" href="{{ build_url('/food/set') }}">
+                    <a class="btn btn-outline btn-primary pull-right" href="{{ build_url('/food/set') }}?id={{ info.id }}">
                         <i class="fa fa-pencil"></i>编辑
                     </a>
                     <h2>美食信息</h2>
@@ -33,13 +20,13 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <p class="m-t">美食名：小鸡炖蘑菇</p>
-                <p>售价：45.00</p>
-                <p>库存总量：88</p>
-                <p>图书标签：好吃</p>
-                <p>封面图：<img src="{{ static_url('/images/common/logo.png') }}" style="width: 50px;height: 50px;"></p>
+                <p class="m-t">美食名：{{ info.name }}</p>
+                <p>售价：{{ info.price }}</p>
+                <p>库存总量：{{ info.stock }}</p>
+                <p>图书标签：{{ info.tags }}</p>
+                <p>封面图：<img src="{{ build_image_url( info.main_image ) }}" style="width: 50px;height: 50px;"></p>
                 <p>描述：</p>
-                <p>小鸡炖蘑菇~~~~</p>
+                <p>{{ info.summary | safe }}</p>
                 <p></p>
             </div>
         </div>
@@ -88,71 +75,17 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>订单过期释放库存</td>
-                                        <td>2018-03-14 20:00:02</td>
-                                    </tr>
-                                    <tr>
-                                        <td>-1</td>
-                                        <td>在线购买</td>
-                                        <td>2018-03-14 19:14:32</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>订单过期释放库存</td>
-                                        <td>2018-03-14 10:11:14</td>
-                                    </tr>
-                                    <tr>
-                                        <td>-1</td>
-                                        <td>在线购买</td>
-                                        <td>2018-03-14 10:10:21</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>订单过期释放库存</td>
-                                        <td>2018-03-12 23:00:02</td>
-                                    </tr>
-                                    <tr>
-                                        <td>-1</td>
-                                        <td>在线购买</td>
-                                        <td>2018-03-12 22:28:11</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>订单过期释放库存</td>
-                                        <td>2018-03-11 17:00:02</td>
-                                    </tr>
-                                    <tr>
-                                        <td>-1</td>
-                                        <td>在线购买</td>
-                                        <td>2018-03-11 16:29:48</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>订单过期释放库存</td>
-                                        <td>2018-03-10 14:30:02</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>订单过期释放库存</td>
-                                        <td>2018-03-10 14:30:02</td>
-                                    </tr>
-                                    <tr>
-                                        <td>-1</td>
-                                        <td>在线购买</td>
-                                        <td>2018-03-10 13:57:43</td>
-                                    </tr>
-                                    <tr>
-                                        <td>-1</td>
-                                        <td>在线购买</td>
-                                        <td>2018-03-10 13:56:09</td>
-                                    </tr>
-                                    <tr>
-                                        <td>88</td>
-                                        <td></td>
-                                        <td>2018-03-01 14:40:02</td>
-                                    </tr>
+                                     {% if stock_change_list %}
+                                        {% for item in stock_change_list %}
+                                        <tr>
+                                        <td>{{ item.unit }}</td>
+                                        <td>{{ item.note }}</td>
+                                        <td>{{ item.created_time }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                            <tr><td colspan="3">暂无数据~~</td></tr>
+                                        {% endif %}
                                     </tbody>
                                 </table>
                             </div>

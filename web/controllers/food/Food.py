@@ -53,7 +53,24 @@ def index():
 
 @route_food.route("/info")
 def info():
-    return ops_render("food/info.html")
+    resp_data = {}
+    req = request.args
+    id = int(req.get("id", 0))
+    reback_url = UrlManager.build_url("/food/index")
+
+    if id < 1:
+        return redirect(reback_url)
+    info = Food.query.filter_by(id=id).first()
+    if not info:
+        return redirect(reback_url)
+    stock_change_list = FoodStockChangeLog.query.filter(FoodStockChangeLog.food_id == id) \
+        .order_by(FoodStockChangeLog.id.desc()).all()
+
+    resp_data['info'] = info
+    resp_data['stock_change_list'] = stock_change_list
+    resp_data['current'] = 'index'
+
+    return ops_render("food/info.html", resp_data)
 
 
 @route_food.route("/set", methods=["GET", "POST"])
@@ -64,7 +81,7 @@ def set():
         id = int(req.get('id', 0))
         info = Food.query.filter_by(id=id).first()
         if info and info.status != 1:
-            return redirect(UrlManager.build_url('/food/index '))
+            return redirect(UrlManager.build_url("/food/index"))
         cat_list = FoodCat.query.all()
         resp_data['info'] = info
         resp_data['cat_list'] = cat_list
@@ -243,4 +260,39 @@ def cat_ops():
     db.session.add(food_cat_info)
     db.session.commit()
 
+    return jsonify(resp)
+
+
+@route_food.route("/ops", methods=["POST"])
+def ops():
+    resp = {'code': 200, 'msg': '操作成功', 'data': {}}
+    req = request.values
+
+    id = req['id'] if 'id' in req else 0
+    act = req['act'] if 'act' in req else ''
+
+    if not id:
+        resp['code'] = -1
+        resp['msg'] = "操作有誤，請重試"
+        return jsonify(resp)
+
+    if act not in ['remove', 'recover']:
+        resp['code'] = -1
+        resp['msg'] = "操作有誤，請重試"
+        return jsonify(resp)
+
+    food_info = Food.query.filter_by(id=id).first()
+    if not food_info:
+        resp['code'] = -1
+        resp['msg'] = "指定沒事不存在"
+        return jsonify(resp)
+
+    if act == 'remove':
+        food_info.status = 0
+    elif act == 'recover':
+        food_info.status = 1
+
+    food_info.updated_time = getCurrentDate()
+    db.session.add(food_info)
+    db.session.commit()
     return jsonify(resp)

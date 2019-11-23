@@ -1,9 +1,10 @@
-from flask import jsonify, request
+from flask import jsonify, request, g
 from sqlalchemy import or_
 
 from common.libs.UrlManager import UrlManager
 from common.models.food.food import Food
 from common.models.food.food_cat import FoodCat
+from common.models.member.MemberCart import MemberCart
 from web.controllers.api import route_api
 
 
@@ -87,6 +88,10 @@ def foodInfo():
         resp['code'] = -1
         resp['msg'] = "美食已下架~"
         return jsonify(resp)
+    member_info = g.member_info
+    cart_number = 0
+    if member_info:
+        cart_number = MemberCart.query.filter_by(member_id=member_info.id).count()
 
     resp['data']['info'] = {
         'id': food_info.id,
@@ -98,4 +103,5 @@ def foodInfo():
         'stock': food_info.stock,
         'pics': [UrlManager.build_image_url(food_info.main_image)]
     }
+    resp['data']['cart_number'] = cart_number
     return jsonify(resp)

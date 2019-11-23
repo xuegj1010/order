@@ -12,30 +12,22 @@ Page({
         hideShopPopup: true,
         buyNumber: 1,
         buyNumMin: 1,
-        buyNumMax:1,
+        buyNumMax: 1,
         canSubmit: false, //  选中时候是否允许加入购物车
         shopCarInfo: {},
         shopType: "addShopCar",//购物类型，加入购物车或立即购买，默认为加入购物车,
         id: 0,
         shopCarNum: 4,
-        commentCount:2
+        commentCount: 2
     },
-    onLoad: function () {
+    onLoad: function (e) {
         var that = this;
 
         that.setData({
-            "info": {
-                "id": 1,
-                "name": "小鸡炖蘑菇",
-                "summary": '<p>多色可选的马甲</p><p><img src="http://www.timeface.cn/uploads/times/2015/07/071031_f5Viwp.jpg"/></p><p><br/>相当好吃了</p>',
-                "total_count": 2,
-                "comment_count": 2,
-                "stock": 2,
-                "price": "80.00",
-                "main_image": "/images/food.jpg",
-                "pics": [ '/images/food.jpg','/images/food.jpg' ]
-            },
-            buyNumMax:2,
+            id: e.id
+        })
+
+        that.setData({
             commentList: [
                 {
                     "score": "好评",
@@ -58,8 +50,11 @@ Page({
             ]
         });
 
-        WxParse.wxParse('article', 'html', that.data.info.summary, that, 5);
     },
+    onShow: function () {
+        this.getInfo()
+    },
+
     goShopCar: function () {
         wx.reLaunch({
             url: "/pages/cart/index"
@@ -102,7 +97,7 @@ Page({
         })
     },
     numJianTap: function () {
-        if( this.data.buyNumber <= this.data.buyNumMin){
+        if (this.data.buyNumber <= this.data.buyNumMin) {
             return;
         }
         var currentNum = this.data.buyNumber;
@@ -112,7 +107,7 @@ Page({
         });
     },
     numJiaTap: function () {
-        if( this.data.buyNumber >= this.data.buyNumMax ){
+        if (this.data.buyNumber >= this.data.buyNumMax) {
             return;
         }
         var currentNum = this.data.buyNumber;
@@ -125,6 +120,29 @@ Page({
     swiperchange: function (e) {
         this.setData({
             swiperCurrent: e.detail.current
+        })
+    },
+    getInfo: function () {
+        var that = this;
+        wx.request({
+            url: app.buildUrl("/food/info"),
+            header: app.getRequestHeader(),
+            data: {
+                id: that.data.id
+            },
+            success(res) {
+                var resp = res.data;
+                if (resp.code !== 200) {
+                    app.alert({"content": resp.msg})
+                    return
+                }
+                that.setData({
+                    info: resp.data.info,
+                    buyMunMax: resp.data.info.stock,
+                })
+                WxParse.wxParse('article', 'html', that.data.info.summary, that, 5);
+
+            }
         })
     }
 });

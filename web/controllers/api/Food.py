@@ -75,3 +75,27 @@ def food_search():
     resp['data']['list'] = data_food_list
     resp['data']['has_more'] = 0 if len(data_food_list) < page_size else 1
     return jsonify(resp)
+
+
+@route_api.route("/food/info")
+def foodInfo():
+    resp = {'code': 200, 'msg': "操作成功", 'data': {}}
+    req = request.values
+    id = int(req['id']) if 'id' in req else 0
+    food_info = Food.query.filter_by(id=id).first()
+    if not food_info or not food_info.status:
+        resp['code'] = -1
+        resp['msg'] = "美食已下架~"
+        return jsonify(resp)
+
+    resp['data']['info'] = {
+        'id': food_info.id,
+        'name': food_info.name,
+        'summary': food_info.summary,
+        'comment_count': food_info.comment_count,
+        'main_image': UrlManager.build_image_url(food_info.main_image),
+        'price': str(food_info.price),
+        'stock': food_info.stock,
+        'pics': [UrlManager.build_image_url(food_info.main_image)]
+    }
+    return jsonify(resp)

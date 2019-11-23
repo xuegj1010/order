@@ -19,13 +19,15 @@ Page({
         processing: false
     },
     onLoad: function () {
-        var that = this;
-
         wx.setNavigationBarTitle({
             title: app.globalData.shopName
         });
+    },
+
+    onShow: function () {
         this.getBannerAndCat();
     },
+
     scroll: function (e) {
         var that = this, scrollTop = that.data.scrollTop;
         that.setData({
@@ -85,9 +87,9 @@ Page({
     catClick: function (e) {
         this.setData({
             activeCategoryId: e.currentTarget.id,
-            p:1,
-            goods:[],
-            loadingMoreHidden:true
+            p: 1,
+            goods: [],
+            loadingMoreHidden: true
         })
         this.getFoodList()
     },

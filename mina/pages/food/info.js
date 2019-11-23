@@ -2,6 +2,7 @@
 //获取应用实例
 var app = getApp();
 var WxParse = require('../../wxParse/wxParse.js');
+var utils = require('../../utils/util.js');
 
 Page({
     data: {
@@ -144,5 +145,29 @@ Page({
 
             }
         })
+    },
+    onShareAppMessage: function () {
+        var that = this;
+        return {
+            title: that.data.info.name,
+            path: '/path/food/info?id=' + that.data.info.id,
+            success: function () {
+                wx.request({
+                    url: app.buildUrl("/member/share"),
+                    header: app.getRequestHeader(),
+                    method:'POST',
+                    data: {
+                        url:utils.getCurrentPageUrlWithArgs()
+                    },
+                    success(res) {
+                    }
+                })
+            },
+            fail: function () {
+
+            }
+
+        }
     }
+
 });

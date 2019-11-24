@@ -69,7 +69,7 @@ def get_dict_filter_field(db_model, select_field, key_field, id_list):
     ret = {}
     query = db_model.query
     if id_list and len(id_list) > 0:
-        query = query.filter_by(select_field.in_(id_list))
+        query = query.filter(select_field.in_(id_list))
 
     list = query.all()
 
@@ -79,4 +79,15 @@ def get_dict_filter_field(db_model, select_field, key_field, id_list):
         if not hasattr(item, key_field):
             break
         ret[getattr(item, key_field)] = item
+    return ret
+
+
+def select_filter_obj(obj, field):
+    ret = []
+    for item in obj:
+        if not hasattr(item, field):
+            continue
+        if getattr(item, field) in ret:
+            continue
+        ret.append(getattr(item, field))
     return ret

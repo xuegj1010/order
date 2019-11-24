@@ -76,8 +76,8 @@ Page({
     addShopCar: function () {
         var that = this
         var data = {
-            'id': this.data.info.id,
-            'number': this.data.buyNumber
+            "id": this.data.info.id,
+            "number": this.data.buyNumber
         }
         wx.request({
             url: app.buildUrl("/cart/set"),
@@ -116,9 +116,11 @@ Page({
     },
     numJianTap: function () {
         if (this.data.buyNumber <= this.data.buyNumMin) {
+            console.log(333333)
             return;
         }
         var currentNum = this.data.buyNumber;
+        console.log(444444444)
         currentNum--;
         this.setData({
             buyNumber: currentNum
@@ -126,8 +128,10 @@ Page({
     },
     numJiaTap: function () {
         if (this.data.buyNumber >= this.data.buyNumMax) {
+            console.log(111111)
             return;
         }
+        console.log(222222)
         var currentNum = this.data.buyNumber;
         currentNum++;
         this.setData({
@@ -156,8 +160,8 @@ Page({
                 }
                 that.setData({
                     info: resp.data.info,
-                    buyMunMax: resp.data.info.stock,
-                    shopCarNum:resp.data.cart_number
+                    buyNumMax: resp.data.info.stock,
+                    shopCarNum: resp.data.cart_number
                 })
                 WxParse.wxParse('article', 'html', that.data.info.summary, that, 5);
 

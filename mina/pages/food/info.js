@@ -94,8 +94,18 @@ Page({
         })
     },
     buyNow: function () {
+        var data = {
+            goods: [{
+                "id": this.data.info.id,
+                "price": this.data.info.price,
+                "number": this.data.buyNumber
+            }]
+        }
+        this.setData({
+            hideShopPopup: true
+        })
         wx.navigateTo({
-            url: "/pages/order/index"
+            url: "/pages/order/index?data=" + JSON.stringify(data)
         });
     },
     /**

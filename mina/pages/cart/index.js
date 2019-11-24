@@ -118,8 +118,23 @@ Page({
     },
     //去结算
     toPayOrder: function () {
+        var data = {
+            type: "cart",
+            goods: []
+        }
+        var list = this.data.list
+        for (var i = 0; i < list.length; i++) {
+            if (!list[i].active) {
+                continue
+            }
+            data['goods'].push({
+                "id": list[i].food_id,
+                "price": list[i].price,
+                "number": list[i].number
+            })
+        }
         wx.navigateTo({
-            url: "/pages/order/index"
+            url: "/pages/order/index?data=" + JSON.stringify(data)
         });
     },
     //如果没有显示去光光按钮事件
@@ -146,9 +161,9 @@ Page({
         wx.request({
             url: app.buildUrl("/cart/del"),
             header: app.getRequestHeader(),
-            method:'POST',
-            data:{
-                goods:JSON.stringify(goods)
+            method: 'POST',
+            data: {
+                goods: JSON.stringify(goods)
             },
             success(res) {
 

@@ -1,3 +1,5 @@
+import json
+
 from flask import jsonify, request, g
 
 from common.libs.Helper import select_filter_obj, get_dict_filter_field
@@ -39,7 +41,7 @@ def cart_index():
 
 
 @route_api.route("/cart/set", methods=["POST"])
-def setCart():
+def set_cart():
     resp = {'code': 200, 'msg': '操作成功', 'data': {}}
     req = request.values
     food_id = int(req['id']) if 'id' in req else 0
@@ -63,10 +65,33 @@ def setCart():
         resp['msg'] = "添加購物車失敗,庫存不足"
         return jsonify(resp)
 
-    ret = CartService.setItems(member_id=member_info.id, food_id=food_id, number=number)
+    ret = CartService.set_items(member_id=member_info.id, food_id=food_id, number=number)
     if not ret:
         resp['code'] = -1
         resp['msg'] = "添加購物車失敗-4"
         return jsonify(resp)
+    return jsonify(resp)
 
+
+@route_api.route("/cart/del", methods=["POST"])
+def del_cart():
+    resp = {'code': 200, 'msg': '操作成功', 'data': {}}
+    req = request.values
+    params_goods = req['goods'] if 'goods' in req else None
+
+    items = []
+    if params_goods:
+        items = json.loads(params_goods)
+    if not items or len(items) < 1:
+        return jsonify(resp)
+    member_info = g.member_info
+    if not member_info:
+        resp['code'] = -1
+        resp['msg'] = "删除购物车失败-1~~"
+        return jsonify(resp)
+    ret = CartService.delete_item(member_id=member_info.id, items=items)
+    if not ret:
+        resp['code'] = -1
+        resp['msg'] = "删除购物车失败-2~~"
+        return jsonify(resp)
     return jsonify(resp)

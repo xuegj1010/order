@@ -63,6 +63,7 @@ Page({
         var list = that.data.list;
         list[parseInt(index)].number++;
         that.setPageData(that.getSaveHide(), that.totalPrice(), that.allSelect(), that.noSelect(), list);
+        this.setCart(list[parseInt(index)].food_id, list[parseInt(index)].number)
     },
     //减数量
     jianBtnTap: function (e) {
@@ -71,6 +72,7 @@ Page({
         if (list[parseInt(index)].number > 1) {
             list[parseInt(index)].number--;
             this.setPageData(this.getSaveHide(), this.totalPrice(), this.allSelect(), this.noSelect(), list);
+            this.setCart(list[parseInt(index)].food_id, list[parseInt(index)].number)
         }
     },
     //编辑默认全不选
@@ -101,7 +103,7 @@ Page({
             if (!list[i].active) {
                 continue;
             }
-            totalPrice = totalPrice + parseFloat(list[i].price);
+            totalPrice = totalPrice + parseFloat(list[i].price) * list[i].number;
         }
         return totalPrice;
     },
@@ -129,15 +131,29 @@ Page({
     //选中删除的数据
     deleteSelected: function () {
         var list = this.data.list;
-        var cart_ids = [];
+        var goods = []
         list = list.filter(function (item) {
-            if (!item.active) {
-                cart_ids.append(item.id);
+            if (item.active) {
+                goods.push({
+                    "id": item.food_id
+                })
             }
             return !item.active;
         });
         this.setPageData(this.getSaveHide(), this.totalPrice(), this.allSelect(), this.noSelect(), list);
         //发送请求到后台删除数据
+        var that = this
+        wx.request({
+            url: app.buildUrl("/cart/del"),
+            header: app.getRequestHeader(),
+            method:'POST',
+            data:{
+                goods:JSON.stringify(goods)
+            },
+            success(res) {
+
+            }
+        })
     },
     getCartList: function () {
         var that = this
@@ -159,6 +175,21 @@ Page({
                 })
                 that.setPageData(that.getSaveHide(), that.totalPrice(), that.allSelect(), that.noSelect(), that.data.list);
 
+            }
+        })
+    },
+    setCart: function (food_id, number) {
+        var that = this
+        var data = {
+            "id": food_id,
+            "number": number
+        }
+        wx.request({
+            url: app.buildUrl("/cart/set"),
+            header: app.getRequestHeader(),
+            method: 'POST',
+            data: data,
+            success(res) {
             }
         })
     }

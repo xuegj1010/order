@@ -40,8 +40,8 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/cart/index",
-					"pathName": "pages/cart/index",
+					"name": "pages/order/index",
+					"pathName": "pages/order/index",
 					"query": "id=22",
 					"scene": null
 				}

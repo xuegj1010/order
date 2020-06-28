@@ -27,7 +27,7 @@ Page({
         var data = {
             type: this.data.params.type,
             goods: JSON.stringify(this.data.params.goods),
-            express_address_id: that.data.default_address.id
+            // express_address_id: that.data.default_address.id
         }
         wx.request({
             url: app.buildUrl("/order/create"),
@@ -70,7 +70,7 @@ Page({
             header: app.getRequestHeader(),
             method: 'POST',
             data: data,
-            success(res) {
+            success (res) {
                 var resp = res.data;
                 if (resp.code !== 200) {
                     app.alert({"content": resp.msg})
@@ -85,7 +85,7 @@ Page({
                 })
                 if (that.data.default_address) {
                     that.setData({
-                        express_address_id: that.dat.default_address.id
+                        express_address_id: that.data.default_address.id
                     })
                 }
             }

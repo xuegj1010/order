@@ -30,11 +30,20 @@ MINA_APP = {
 }
 
 UPLOAD = {
-    'ext':['jpg', 'gif', 'bmp', 'jpeg', 'png'],
+    'ext': ['jpg', 'gif', 'bmp', 'jpeg', 'png'],
     'prefix_path': '/web/static/upload/',
-    'prefix_url':'/static/upload/'
+    'prefix_url': '/static/upload/'
 }
 
 APP = {
-    'domain':'http://127.0.0.1:9000'
+    'domain': 'http://127.0.0.1:9000'
+}
+
+PAY_STATUS_DISPLAY_MAPPING = {
+    "0": "订单关闭",
+    "1": "支付成功",
+    "-8": "待支付",
+    "-7": "代发货",
+    "-6": "待确认",
+    "-5": "待评价"
 }

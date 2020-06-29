@@ -44,6 +44,12 @@
 					"pathName": "pages/order/index",
 					"query": "id=22",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/order_list",
+					"pathName": "pages/my/order_list",
+					"scene": null
 				}
 			]
 		}

@@ -1,8 +1,8 @@
 var app = getApp();
 Page({
     data: {
-        statusType: ["待付款", "待发货", "待收货", "待评价", "已完成","已关闭"],
-        status:[ "-8","-7","-6","-5","1","0" ],
+        statusType: ["待付款", "待发货", "待收货", "待评价", "已完成", "已关闭"],
+        status: ["-8", "-7", "-6", "-5", "1", "0"],
         currentType: 0,
         tabClass: ["", "", "", "", "", ""]
     },
@@ -28,26 +28,7 @@ Page({
     },
     onShow: function () {
         var that = this;
-        that.setData({
-            order_list: [
-                {
-					status: -8,
-                    status_desc: "待支付",
-                    date: "2018-07-01 22:30:23",
-                    order_number: "20180701223023001",
-                    note: "记得周六发货",
-                    total_price: "85.00",
-                    goods_list: [
-                        {
-                            pic_url: "/images/food.jpg"
-                        },
-                        {
-                            pic_url: "/images/food.jpg"
-                        }
-                    ]
-                }
-            ]
-        });
+        this.getPayOrder()
     },
     onHide: function () {
         // 生命周期函数--监听页面隐藏
@@ -64,5 +45,25 @@ Page({
     onReachBottom: function () {
         // 页面上拉触底事件的处理函数
 
+    },
+    getPayOrder() {
+        var that = this;
+        wx.request({
+            url: app.buildUrl("/my/order"),
+            header: app.getRequestHeader(),
+            data: {
+                status: that.data.status[that.data.currentType]
+            },
+            success(res) {
+                var resp = res.data
+                if (resp.code != 200) {
+                    app.alert({"content": resp.msg})
+                    return
+                }
+                that.setData({
+                    order_list:resp.data.pay_order_list
+                })
+            }
+        })
     }
 })

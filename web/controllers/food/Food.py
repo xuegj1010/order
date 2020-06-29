@@ -7,6 +7,7 @@ from sqlalchemy import or_
 from application import db, app
 from common.libs.Helper import ops_render, getCurrentDate, i_pagination, get_dict_filter_field
 from common.libs.UrlManager import UrlManager
+from common.libs.food.FoodService import FoodService
 from common.models.food.food import Food
 from common.models.food.food_cat import FoodCat
 from common.models.food.food_stock_change_log import FoodStockChangeLog
@@ -158,6 +159,8 @@ def set():
 
     db.session.add(model_food)
     ret = db.session.commit()
+
+    FoodService.setStockChangeLog(model_food.id, int(stock) - int(before_stock), "后台修改")
 
     model_stock_change = FoodStockChangeLog()
     model_stock_change.food_id = model_food.id

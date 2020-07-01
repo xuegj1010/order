@@ -3,10 +3,14 @@ import json
 
 from flask import request, g, jsonify
 
+from application import app, db
 from common.libs.UrlManager import UrlManager
 from common.libs.member.CartService import CartService
 from common.libs.pay.PayService import PayService
+from common.libs.pay.WeChatService import WeChatService
 from common.models.food.food import Food
+from common.models.member.OauthMemberBind import OauthMemberBind
+from common.models.pay.PayOrder import PayOrder
 from web.controllers.api import route_api
 from common.libs.pay.PayService import PayService
 
@@ -42,9 +46,9 @@ def order_info():
             data_food_list.append(tmp_data)
     # 获取地址
     default_address = {
-        "name":"编程浪子",
+        "name": "编程浪子",
         "mobile": "17282728228",
-        "address":"上海虹桥"
+        "address": "上海虹桥"
     }
     resp['data']['food_list'] = data_food_list
     resp['data']['pay_price'] = str(pay_price)
@@ -60,7 +64,8 @@ def order_create():
     req = request.values
     type = req['type'] if 'type' in req else ''
     note = req['note'] if 'note' in req else ''
-    express_address_id = int(req['express_address_id']) if 'express_address_id' in req and req['express_address_id'] else 0
+    express_address_id = int(req['express_address_id']) if 'express_address_id' in req and req[
+        'express_address_id'] else 0
     params_goods = req['goods'] if 'goods' in req else None
 
     items = []
@@ -78,4 +83,50 @@ def order_create():
     resp = target.create_order(member_info.id, items, params)
     if resp['code'] == 200 and type == "cart":
         CartService.delete_item(member_info.id, items)
+    return jsonify(resp)
+
+
+@route_api.route("/order/pay", methods=["POST"])
+def orderPay():
+    resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
+    member_info = g.member_info
+    req = request.values
+    order_sn = req['order_sn'] if 'order_sn' in req else ''
+    pay_order_info = PayOrder.query.filter_by(order_sn=order_sn, member_id=member_info.id).first()
+    if not pay_order_info:
+        resp['code'] = -1
+        resp['msg'] = "系统繁忙。请稍后再试~~"
+        return jsonify(resp)
+
+    oauth_bind_info = OauthMemberBind.query.filter_by(member_id=member_info.id).first()
+    if not oauth_bind_info:
+        resp['code'] = -1
+        resp['msg'] = "系统繁忙。请稍后再试~~"
+        return jsonify(resp)
+
+    config_mina = app.config['MINA_APP']
+    notify_url = app.config['APP']['domain'] + config_mina['callback_url']
+
+    target_wechat = WeChatService(merchant_key=config_mina['paykey'])
+
+    data = {
+        'appid': config_mina['appid'],
+        'mch_id': config_mina['mch_id'],
+        'nonce_str': target_wechat.get_nonce_str(),
+        'body': '订餐',  # 商品描述
+        'out_trade_no': pay_order_info.order_sn,  # 商户订单号
+        'total_fee': int(pay_order_info.total_price * 100),
+        'notify_url': notify_url,
+        'trade_type': "JSAPI",
+        'openid': oauth_bind_info.openid
+    }
+
+    pay_info = target_wechat.get_pay_info(pay_data=data)
+
+    # 保存prepay_id为了后面发模板消息
+    pay_order_info.prepay_id = pay_info['prepay_id']
+    db.session.add(pay_order_info)
+    db.session.commit()
+
+    resp['data']['pay_info'] = pay_info
     return jsonify(resp)
